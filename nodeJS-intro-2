@@ -1,0 +1,97 @@
+console.log() ==> to execute in IDE or terminal
+document.write() ==> to execute in the browser, fails to execute in IDE's terminal
+document not defined in the nodeJS
+functions that perform browser interactions are not compatible with nodeJS
+****************************************************************************************
+creating basic server
+const http = require("http");
+var server = http.createServer((req, res) => {
+  res.write("Hello World! I have created my first server!");
+  res.end();
+});
+server.listen(3000);
+console.log("Server started... Running on localhost:3000");
+****************************************************************************************
+Modularity in nodeJS
+segregating different blocks of code into their respective files and folders to make the code reusable, understandable, and requirable across the system
+INDEX.js-------------------------------
+async function add(operator1, operator2) {
+  return 'Result: ', operator1 + operator2;
+}
+async function substract(operator1, operator2) {
+  return 'Result: ', operator1 - operator2;
+}
+async function asyncCall() {
+  console.log('calling');
+  const result = await add(2, 3);
+  console.log(result);
+}
+asyncCall(); 
+--------------------------------------------
+applying modularity
+CALCI.js---------------------------------------------------------
+exports.add = async (operator1, operator2) => {
+  console.log("Result:", operator1 + operator2);
+};
+exports.subtract = async (operator1, operator2) => {
+  console.log("Result:", operator1 - operator2);
+};
+INDEX.js----------------------------------------------------
+const myCalculator = require("./Calculator");
+myCalculator.add(10, 30);
+myCalculator.substract(30, 10);
+---------------------------------------------------------------------DONE.........!!!!!!!
+******************************************************************************************
+FILE OPERATIONS
+Method 1:-----------------------------------------
+//Method 1
+// promisifing writeFile method
+const fs = require('fs');
+const writeFilePromise = (file, data) => {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(file, data, (err) => {
+      if (err) reject('Could not write file');
+      resolve('success');
+    });
+  });
+};
+//Invoking the promise which we have created. Self-invocation function
+(async () => {
+  try {
+    await writeFilePromise('myData.txt', `Hey @ ${new Date()}`);
+    console.log('File created successfully with promisify and async/await!');
+  } catch (err) {
+    console.log(err);
+  }
+})();
+Method 2:------------------------------------------------------------------
+// Method 2
+const fs = require('fs');
+const { promisify } = require('util');
+const writeFile = promisify(fs.writeFile);
+(async () => {
+  try {
+    await writeFile('myData.txt', `Hey @ ${new Date()}`);
+    console.log('File created successfully with promisify and async/await!');
+  } catch (err) {
+    console.log(err);
+  }
+})();
+Same way reading and appending file can also be implemented
+-----------------------------------------------------------------------------------------
+writeFile() overwrites the existing content of the file or creates and new file and writes in it
+appendFile() just adds the content to the existing content of the file without touching it.
+
+readFile('file.path', utf-8);
+*****************************************************************************************************************************************************************************************
+NODE -- PACKAGE -- MANAGER -- NPM 
+global installation npm install -g <package_name>
+local installation npm install <package_name>
+installing with version npm install <pa_name>[@version]
+nodemon package for restarting the file after making changes ==> npm i nodemon ==> nodemon <file_name>.js ==> to apply the dependencies of nodemon for automatic restart upon ctrl+s
+" npm init " to create package-json file
+local mode of installation is better, to install any package which has an application dependency
+**************************************************************************************************************************************************************************************
+The callback function is used as part of the asynchronous coding pattern.
+In Node.js web server each incoming request which has blocking I/O operations is allocated to a separate asynchronous thread. In a traditional web server, each incoming request is allocated to a separate thread.
+
