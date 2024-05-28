@@ -1,0 +1,19 @@
+creating server using express framework
+ const express = require('express'); ===> express module imported.
+const app = express(); ===> calling express func to create an application object.
+app.listen(3000) ====> The listen() method can be invoked on the application object to specify the port number on which the application listens for requests.
+BEST PRACTICE : Environment Variables
+The recommended way in Node.js is to use environment variables and to look up the values from process.env in your code. For example, to figure out which environment you’re running on, check the NODE_ENV environment variables:
+console.log("Running in :"  + process.env.NODE_ENV);
+***********************************************************************************************************************************************************************************************
+BASIC SERVER CREATION 
+Open "app.js" file. write below code for creating an express server
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`App running on port ${port}...`);
+});
+install node modules if not done. =====> "npm install"
+run the node app ====> "node app"
+***********************************************************************************************************************************************************************************************
