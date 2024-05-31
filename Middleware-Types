@@ -1,0 +1,7 @@
+TYPES OF MIDDLEWARES 
+-------------------------------------------------------------------
+1. Application-level Middleware ---> funcns associated with application objects ---> gets executed every time an application receives a req.
+
+2. Router-level middlewares ---> funcns assc. with route ------> linked to express.Router() class instance
+
+3. 
