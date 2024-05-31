@@ -1,0 +1,56 @@
+Middleware helps to keep the router clean by moving all the logic into corresponding external modules.
+middleware - great for organizing codes.
+middleware - function for implementing cross-cuting concerns such as authentication, logging etc.
+middleware(req, res, next) ==> arguments of middleware.
+next --> to call the next middleware function.
+middleware can perform following tasks: 
+-> any code execution
+-> modification of objects - req and res
+-> call next middleware function
+-> end cycle of req and res
+middleware funcns --> used to perform tasks such as parsing of requests body, cookie parsing for cookie handling, building JS modules.
+********************************************************************************************************************************************
+app.get('/login', myController.myMethod);
+exports.myMethod = async (req, res, next) => {
+  res.send('/login');
+};
+Middleware func for above code
+mylogger --> req method, req url and date is logged && next() is called for next mW funcn
+const mylogger = async (req, res, next) => {
+  console.log(new Date(), req.method, req.url);
+  next();
+};--------------------------------------------------------------------------------------------------------------------
+Now, app.use(PATH, CallBack) ---> path=string(not mandatory) ---> callback = middleware function (**)
+Adding middleware to code-------------------------------------------------------------------------------------------------------
+app.use(mylogger);
+app.get('/login', mycontroller.mymethod);
+Associating middleware directly with handler function---------------------------------------------------------------------------------------
+app.use('/login', (req, res, next) => {
+  console.log(new Date(), req.method, req.url);
+  next();
+});
+******************************************************************************************************************************************************
+CHAINING OF MIDDLEWARES ---> chain of middlewares can be created before req reaching th handler
+const logtime = async (req, res, next) =>{
+  console.log('Request received at  ' + Date.now());
+  next();
+};
+const logURL = async (req, res, next) =>{
+  console.log('Request URL is  ' + req.url);
+  next();
+};
+app.use(logtime);
+app.use(logURL); 
+----The order of execution of middleware depends on the order in which route handler funcns and other middleware funcs are declared.
+app.get('/', myController.getMethod);
+app.use(myLogger);
+app.post('/', myController.postMethod)
+middleware myLogger will never run for get route handler but will run for post route handler, because of order of declaration.
+
+
+
+
+
+
+
+
